@@ -1,8 +1,10 @@
-import React from 'react'
+import React from "react";
 // import * as BooksAPI from './BooksAPI'
-import './App.css'
-import BookShelves from './BookShelves';
-import SearchPage from './SearchPage';
+import "./App.css";
+import { Route, Link } from "react-router-dom";
+
+import BookShelves from "./BookShelves";
+import SearchPage from "./SearchPage";
 
 class BooksApp extends React.Component {
   state = {
@@ -13,25 +15,30 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false
-  }
+  };
 
   render() {
     return (
       <div className="app">
-
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
+              <BookShelves />
+              <div className="open-search">
+                <Link to="/search">Add a book</Link>
+              </div>
             </div>
-            <BookShelves/>
-            <SearchPage/>
-            <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-            </div>
-          </div>
+          )}
+        />
+        <Route path="/search" render={() => <SearchPage />} />
       </div>
-    )
+    );
   }
 }
 
-export default BooksApp
+export default BooksApp;
