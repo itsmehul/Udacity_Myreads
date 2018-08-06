@@ -2,7 +2,7 @@ import React from 'react';
 import BookShelf from './BookShelf';
 
 const BookShelves = (props) => {
-  const {collection} = props
+  const {collection, setShelf} = props
   const currentlyReading = 
   collection.filter((c) => (
       c.shelf.includes('currentlyReading')
@@ -17,9 +17,9 @@ const BookShelves = (props) => {
     ))
   return (
     <div className="list-books-content">
-        <BookShelf title={'Currently Reading'} bookCategory={currentlyReading}/>
-        <BookShelf title={'Read'} bookCategory={read}/>
-        <BookShelf title={'Want to Read'} bookCategory={wantToRead}/>
+        <BookShelf title={'Currently Reading'} bookCategory={currentlyReading} setShelf={setShelf}/>
+        <BookShelf title={'Read'} bookCategory={read} setShelf={setShelf}/>
+        <BookShelf title={'Want to Read'} bookCategory={wantToRead} setShelf={setShelf}/>
     </div>
   );
 }

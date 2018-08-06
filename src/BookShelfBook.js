@@ -1,7 +1,12 @@
 import React from "react";
 
 const BookShelfBook = props => {
-  const { img, title, authors, shelf } = props;
+  const { img, title, authors, shelf, setShelf, book } = props;
+
+  const changeShelf = (book, shelf) => {
+    setShelf(book, shelf);
+  };
+
   return (
     <div className="book">
       <div className="book-top">
@@ -14,7 +19,10 @@ const BookShelfBook = props => {
           }}
         />
         <div className="book-shelf-changer">
-          <select value={shelf}>
+          <select
+            value={book.shelf || shelf}
+            onChange={e => changeShelf(book, e.target.value)}
+          >
             <option value="move" disabled>
               Move to...
             </option>

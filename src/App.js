@@ -18,16 +18,27 @@ class BooksApp extends React.Component {
     this.setState({ collection });
   }
 
-  //Search Page data
+  //load Search Page data
   searchBooks = async query => {
-    const books = await BooksAPI.search(query).then(books => books)
+    const books = await BooksAPI.search(query).then(books => books);
     if (books !== undefined && !books.hasOwnProperty("error")) {
       this.setState({ books });
     }
   };
 
+  //Change shelf
+  setShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf);
+    book.shelf = shelf;
+    this.setState(prevState => ({
+      collection: prevState.collection.filter(b => b !== book ).concat(book)
+    }));
+  };
+
+
   render() {
     const { collection, books } = this.state;
+    console.log(collection);
     return (
       <div className="app">
         <Route
@@ -38,7 +49,7 @@ class BooksApp extends React.Component {
               <div className="list-books-title">
                 <h1>MyReads</h1>
               </div>
-              <BookShelves collection={collection} />
+              <BookShelves collection={collection} setShelf={this.setShelf}/>
               <div className="open-search">
                 <Link to="/search">Add a book</Link>
               </div>
@@ -48,7 +59,7 @@ class BooksApp extends React.Component {
         <Route
           path="/search"
           render={() => (
-            <SearchPage books={books} searchBooks={this.searchBooks} />
+            <SearchPage books={books} collection={collection} searchBooks={this.searchBooks} setShelf={this.setShelf}/>
           )}
         />
       </div>

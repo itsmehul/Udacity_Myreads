@@ -1,17 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import BookShelfBook from "./BookShelfBook";
-import bookPlaceHolder from './imgs/not-found.png'
+import bookPlaceHolder from "./imgs/not-found.png";
 
 const SearchPage = props => {
-  const { books, searchBooks } = props;
+  const { books, searchBooks, setShelf, collection } = props;
 
   //For every change in the input a new search request in fired
   const updateQuery = query => {
-    if(query!==''){
-    searchBooks(query);}
+    if (query !== "") {
+      searchBooks(query);
+    }
   };
-
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -28,9 +28,11 @@ const SearchPage = props => {
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          {books.map((b,i) => (
-            <li key={i}>
+          {books.map((b, i) => {
+            const mycollection = collection.find(book => book.id === b.id);
+            return (
               <BookShelfBook
+                key={i}
                 title={b.title}
                 authors={b.authors}
                 img={
@@ -38,10 +40,12 @@ const SearchPage = props => {
                     ? b.imageLinks["thumbnail"]
                     : bookPlaceHolder
                 }
-                shelf={b.shelf}
+                setShelf={setShelf}
+                book={b}
+                shelf={mycollection !== undefined ? mycollection.shelf : "none"}
               />
-            </li>
-          ))}
+            );
+          })}
         </ol>
       </div>
     </div>
