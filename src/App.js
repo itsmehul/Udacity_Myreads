@@ -8,8 +8,7 @@ import SearchPage from "./SearchPage";
 
 class BooksApp extends React.Component {
   state = {
-    books: [],
-    collection: []
+    collection: [],
   };
 
   //When home loads
@@ -18,13 +17,7 @@ class BooksApp extends React.Component {
     this.setState({ collection });
   }
 
-  //load Search Page data
-  searchBooks = async query => {
-    const books = await BooksAPI.search(query).then(books => books);
-    if (books !== undefined && !books.hasOwnProperty("error")) {
-      this.setState({ books });
-    }
-  };
+
 
   //Change shelf
   setShelf = (book, shelf) => {
@@ -37,7 +30,7 @@ class BooksApp extends React.Component {
 
 
   render() {
-    const { collection, books } = this.state;
+    const { collection } = this.state;
     console.log(collection);
     return (
       <div className="app">
@@ -59,7 +52,7 @@ class BooksApp extends React.Component {
         <Route
           path="/search"
           render={() => (
-            <SearchPage books={books} collection={collection} searchBooks={this.searchBooks} setShelf={this.setShelf}/>
+            <SearchPage collection={collection} setShelf={this.setShelf}/>
           )}
         />
       </div>
